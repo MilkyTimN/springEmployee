@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
@@ -20,7 +21,7 @@ public class Phone {
     @Column(name = "phone_number")
     String phoneNumber;
 
-    @OneToMany
+    @ManyToOne
     @Column(name = "id_employee")
     Employee employee;
 }

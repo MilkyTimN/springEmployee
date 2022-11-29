@@ -24,4 +24,9 @@ public class Employee {
     @Column(name = "id_account")
     Account account;
 
+    @ManyToOne
+    @Column(name = "id_position")
+    Position position;
+
+
 }
