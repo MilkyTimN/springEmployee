@@ -26,8 +26,8 @@ public class PositionServiceImpl implements PositionService {
 
 
     @Override
-    public Optional<Position> findById(Long id) {
-        return positionRepository.findById(id);
+    public Position findById(Long id) {
+        return positionRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
     }
 
     @Override

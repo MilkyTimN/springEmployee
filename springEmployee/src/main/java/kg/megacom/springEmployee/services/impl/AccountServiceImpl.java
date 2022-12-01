@@ -19,18 +19,46 @@ public class AccountServiceImpl implements AccountService {
         this.accountRepository = accountRepository;
     }
 
+
     @Override
     public Account save(Account account) {
+        account.setCounter(0);
         return accountRepository.save(account);
     }
 
+
+
     @Override
-    public Optional<Account> findById(Long id) {
-        return accountRepository.findById(id);
+    public Account findByLoginAndPassword(String login, String password) {
+        Integer counter;
+        Account accountTemp = accountRepository.findByLoginAndPassword(login);
+        if (accountTemp.getLogin().equals(null)){
+            throw new RuntimeException("Account not found");
+        } else if (accountTemp.getPassword().equals(password)){
+            return accountTemp;
+        } else {
+            accountRepository.updateCounter();
+            counter = accountRepository.checkCounter(login);
+            if (counter > 3) {
+
+                throw new RuntimeException("Blocked");
+            }
+
+            throw new RuntimeException("Wrong password");
+
+        }
+
+    }
+
+    @Override
+    public Account findById(Long id) {
+        return accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
     }
 
     @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
+
+
 }

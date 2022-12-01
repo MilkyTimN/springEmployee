@@ -26,7 +26,7 @@ public class PositionController {
     }
 
     @GetMapping("/get/{id}")
-    public Optional<Position> getPosition(@PathVariable("id")Long id){
+    public Position getPosition(@PathVariable("id")Long id){
         return positionService.findById(id);
     }
 

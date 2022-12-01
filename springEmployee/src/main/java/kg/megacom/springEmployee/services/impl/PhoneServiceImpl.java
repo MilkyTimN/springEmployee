@@ -25,8 +25,8 @@ public class PhoneServiceImpl implements PhoneService {
     }
 
     @Override
-    public Optional<Phone> findById(Long id) {
-        return phoneRepository.findById(id);
+    public Phone findById(Long id) {
+        return phoneRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
     }
 
     @Override

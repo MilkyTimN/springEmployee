@@ -22,6 +22,6 @@ public class Phone {
     String phoneNumber;
 
     @ManyToOne
-    @Column(name = "id_employee")
+    @JoinColumn(name = "id_employee")
     Employee employee;
 }

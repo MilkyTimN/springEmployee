@@ -17,6 +17,10 @@ public class Account {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     Long id;
-    @Column(name = "account_name")
-    String accountName;
+    @Column(name = "login")
+    String login;
+    @Column(name = "password")
+    String password;
+    @Column(name = "counter")
+    Integer counter;
 }
