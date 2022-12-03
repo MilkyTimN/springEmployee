@@ -22,8 +22,13 @@ public class AccountController {
     }
 
     @PostMapping("/save")
-    public AccountDto saveAccount(@RequestBody AccountDto accountDto){
-        return accountService.save(accountDto);
+    public ResponseEntity<?> saveAccount(@RequestBody AccountDto accountDto){
+        try{
+            return ResponseEntity.ok(accountService.save(accountDto));
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.I_AM_A_TEAPOT);
+        }
+
     }
 
     @GetMapping("/get/{id}")
@@ -36,9 +41,9 @@ public class AccountController {
 
     }
 
-    @GetMapping("/get")
-    public List<Account>getAllAccounts(){
-        return accountService.findAll();
-    }
+//    @GetMapping("/get")
+//    public List<Account>getAllAccounts(){
+//        return accountService.findAll();
+//    }
 
 }

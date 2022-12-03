@@ -2,6 +2,7 @@ package kg.megacom.springEmployee.controllers;
 
 import kg.megacom.springEmployee.models.Account;
 import kg.megacom.springEmployee.models.Employee;
+import kg.megacom.springEmployee.models.dtos.EmployeeDto;
 import kg.megacom.springEmployee.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/save")
-    public Employee saveEmployee(@RequestBody Employee employee){
-        return employeeService.save(employee);
+    public ResponseEntity<?> saveEmployee(@RequestBody EmployeeDto employeeDto){
+        try{
+            return ResponseEntity.ok(employeeService.save(employeeDto));
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.I_AM_A_TEAPOT);
+        }
+
     }
 
     @GetMapping("/get/{id}")
@@ -36,8 +42,8 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/get")
-    public List<Employee> getAllEmployee(){
-        return employeeService.findAll();
-    }
+//    @GetMapping("/get")
+//    public List<Employee> getAllEmployee(){
+//        return employeeService.findAll();
+//    }
 }
