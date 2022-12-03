@@ -1,6 +1,6 @@
 package kg.megacom.springEmployee.models.enums;
 
-public enum EmployeeStatus {
+public enum AccountStatus {
     BLOCKED,
     ACTIVE,
     DELETED

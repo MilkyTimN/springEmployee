@@ -1,6 +1,8 @@
 package kg.megacom.springEmployee.services.impl;
 
 import kg.megacom.springEmployee.models.Account;
+import kg.megacom.springEmployee.models.dtos.AccountDto;
+import kg.megacom.springEmployee.models.mapper.AccountMapper;
 import kg.megacom.springEmployee.repositories.AccountRepository;
 import kg.megacom.springEmployee.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
+
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -21,43 +24,35 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Account save(Account account) {
-        account.setCounter(0);
-        return accountRepository.save(account);
+    public AccountDto save(AccountDto accountDto) {
+
+        return AccountMapper.INSTANCE.toDto(accountRepository.save(AccountMapper.INSTANCE.toEntity(accountDto)));
     }
 
-
-
+    //TODO
     @Override
-    public Account findByLoginAndPassword(String login, String password) {
-        Integer counter;
-        Account accountTemp = accountRepository.findByLoginAndPassword(login);
-        if (accountTemp.getLogin().equals(null)){
-            throw new RuntimeException("Account not found");
-        } else if (accountTemp.getPassword().equals(password)){
-            return accountTemp;
+    public String auth(String login, String password) {
+        Account account = accountRepository.findByLogin(login);
+        if (account.getLogin().equals(null)) {
+            return "Account with login: " + login + " not found";
         } else {
-            accountRepository.updateCounter();
-            counter = accountRepository.checkCounter(login);
-            if (counter > 3) {
-
-                throw new RuntimeException("Blocked");
+            if (account.getPassword().equals(password)) {
+                return "Authorization went successfully";
+            }   else {
+                return "Wrong password";
             }
-
-            throw new RuntimeException("Wrong password");
-
         }
-
     }
 
     @Override
-    public Account findById(Long id) {
-        return accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+    public AccountDto findById(Long id) {
+        return AccountMapper.INSTANCE.toDto(accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found")));
     }
 
     @Override
-    public List<Account> findAll() {
-        return accountRepository.findAll();
+    public List<AccountDto> findAll() {
+        return AccountMapper.INSTANCE.toDtos(accountRepository.findAll());
     }
 
 

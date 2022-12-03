@@ -3,7 +3,9 @@ package kg.megacom.springEmployee.services.impl;
 import kg.megacom.springEmployee.models.Account;
 import kg.megacom.springEmployee.models.Employee;
 import kg.megacom.springEmployee.models.Position;
-import kg.megacom.springEmployee.models.enums.EmployeeStatus;
+import kg.megacom.springEmployee.models.dtos.EmployeeDto;
+import kg.megacom.springEmployee.models.enums.AccountStatus;
+import kg.megacom.springEmployee.models.mapper.EmployeeMapper;
 import kg.megacom.springEmployee.repositories.AccountRepository;
 import kg.megacom.springEmployee.repositories.EmployeeRepository;
 import kg.megacom.springEmployee.repositories.PositionRepository;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -29,23 +30,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee save(Employee employee) {
-        Account account = accountRepository.save(employee.getAccount());
-        employee.setAccount(account);
-        employee.setAddDate(new Date());
-        Position position = positionRepository.save(employee.getPosition());
-        employee.setPosition(position);
-        employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
-        return employeeRepository.save(employee);
+    public EmployeeDto save(EmployeeDto employeeDto) {
+
+        return EmployeeMapper.INSTANCE.toDto(employeeRepository.save(EmployeeMapper.INSTANCE.toEntity(employeeDto)));
     }
 
     @Override
-    public Employee findById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+    public EmployeeDto findById(Long id) {
+        return EmployeeMapper.INSTANCE.toDto(employeeRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Not found")));
     }
 
     @Override
-    public List<Employee> findAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> findAll() {
+        return EmployeeMapper.INSTANCE.toDtos(employeeRepository.findAll());
     }
 }

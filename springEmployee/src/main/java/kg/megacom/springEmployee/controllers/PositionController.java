@@ -4,6 +4,8 @@ import kg.megacom.springEmployee.models.Phone;
 import kg.megacom.springEmployee.models.Position;
 import kg.megacom.springEmployee.services.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +28,12 @@ public class PositionController {
     }
 
     @GetMapping("/get/{id}")
-    public Position getPosition(@PathVariable("id")Long id){
-        return positionService.findById(id);
+    public ResponseEntity<?> getPosition(@PathVariable("id")Long id){
+        try {
+            return ResponseEntity.ok(positionService.findById(id));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 
     @GetMapping("/get")

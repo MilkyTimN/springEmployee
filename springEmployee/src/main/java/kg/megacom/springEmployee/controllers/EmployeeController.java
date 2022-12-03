@@ -4,6 +4,8 @@ import kg.megacom.springEmployee.models.Account;
 import kg.megacom.springEmployee.models.Employee;
 import kg.megacom.springEmployee.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +28,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/get/{id}")
-    public Employee getEmployee(@PathVariable("id")Long id){
-        return employeeService.findById(id);
+    public ResponseEntity<?> getEmployee(@PathVariable("id")Long id){
+        try {
+            return ResponseEntity.ok(employeeService.findById(id));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 
     @GetMapping("/get")

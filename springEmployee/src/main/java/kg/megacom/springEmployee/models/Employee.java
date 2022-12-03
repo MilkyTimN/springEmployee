@@ -1,13 +1,12 @@
 package kg.megacom.springEmployee.models;
 
-import kg.megacom.springEmployee.models.enums.EmployeeStatus;
+import kg.megacom.springEmployee.models.enums.AccountStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
@@ -31,14 +30,8 @@ public class Employee {
     @JoinColumn (name = "id_position")
     Position position;
 
-    @Column(name = "status")
-    EmployeeStatus employeeStatus;
 
-    @Column(name = "add_date")
-    Date addDate;
 
-    @Column(name = "updated_date")
-    Date updatedDate;
 
 
 }

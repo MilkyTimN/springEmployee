@@ -1,8 +1,11 @@
 package kg.megacom.springEmployee.controllers;
 
 import kg.megacom.springEmployee.models.Account;
+import kg.megacom.springEmployee.models.dtos.AccountDto;
 import kg.megacom.springEmployee.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,13 +22,18 @@ public class AccountController {
     }
 
     @PostMapping("/save")
-    public Account saveAccount(@RequestBody Account account){
-        return accountService.save(account);
+    public AccountDto saveAccount(@RequestBody AccountDto accountDto){
+        return accountService.save(accountDto);
     }
 
     @GetMapping("/get/{id}")
-    public Account getAccount(@PathVariable("id")Long id){
-        return accountService.findById(id);
+    public ResponseEntity<?> getAccount(@PathVariable("id")Long id){
+        try{
+            return ResponseEntity.ok(accountService.findById(id));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        }
+
     }
 
     @GetMapping("/get")
@@ -33,8 +41,4 @@ public class AccountController {
         return accountService.findAll();
     }
 
-    @GetMapping("/login/{login}/{password}")
-    public Account logIn(@PathVariable("login") String login,@PathVariable("password") String password ) {
-        return accountService.findByLoginAndPassword(login, password);
-    }
 }

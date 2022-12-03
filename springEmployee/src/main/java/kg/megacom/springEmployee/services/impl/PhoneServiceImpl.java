@@ -1,6 +1,8 @@
 package kg.megacom.springEmployee.services.impl;
 
 import kg.megacom.springEmployee.models.Phone;
+import kg.megacom.springEmployee.models.dtos.PhoneDto;
+import kg.megacom.springEmployee.models.mapper.PhoneMapper;
 import kg.megacom.springEmployee.repositories.PhoneRepository;
 import kg.megacom.springEmployee.services.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +22,18 @@ public class PhoneServiceImpl implements PhoneService {
     }
 
     @Override
-    public Phone save(Phone phone) {
-        return phoneRepository.save(phone);
+    public PhoneDto save(PhoneDto phoneDto) {
+        return PhoneMapper.INSTANCE.toDto(phoneRepository.save(PhoneMapper.INSTANCE.toEntity(phoneDto)));
     }
 
     @Override
-    public Phone findById(Long id) {
-        return phoneRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+    public PhoneDto findById(Long id) {
+        return PhoneMapper.INSTANCE.toDto(phoneRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Not found")));
     }
 
     @Override
-    public List<Phone> findAll() {
-        return phoneRepository.findAll();
+    public List<PhoneDto> findAll() {
+        return PhoneMapper.INSTANCE.toDtos(phoneRepository.findAll());
     }
 }
