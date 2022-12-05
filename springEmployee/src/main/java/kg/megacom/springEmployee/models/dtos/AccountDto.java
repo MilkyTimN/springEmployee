@@ -1,14 +1,17 @@
 package kg.megacom.springEmployee.models.dtos;
 
 import kg.megacom.springEmployee.models.enums.AccountStatus;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountDto {
 
     Long id;

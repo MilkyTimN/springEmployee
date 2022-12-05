@@ -17,7 +17,7 @@ import java.util.Date;
 public class Account {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "login", unique = true)
     String login;
@@ -26,9 +26,22 @@ public class Account {
     @Column(name = "counter")
     Integer counter;
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     AccountStatus accountStatus;
     @Column(name = "add_date")
     Date addDate;
     @Column(name = "update_date")
     Date updateDate;
+
+    @PrePersist
+    protected void onCreate(){
+        accountStatus = AccountStatus.ACTIVE;
+        addDate = new Date();
+        updateDate = new Date();
+        counter = 0;
+    }
+    @PreUpdate
+    protected void onUpdate(){
+        updateDate = new Date();
+    }
 }

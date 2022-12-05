@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "tb_position")
 public class Position {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "definition")
     String definition;

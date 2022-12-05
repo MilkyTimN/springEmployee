@@ -16,7 +16,7 @@ import java.util.List;
 public class Phone {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "phone_number")
     String phoneNumber;

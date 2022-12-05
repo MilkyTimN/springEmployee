@@ -1,17 +1,16 @@
-package kg.megacom.springEmployee.models.dtos;
+package kg.megacom.springEmployee.models.responses;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PositionDto {
-
-    Long id;
-    String definition;
-
+public class AuthResponse {
+    String message;
+    Objects objects;
 }
